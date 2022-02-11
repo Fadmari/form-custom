@@ -3,7 +3,7 @@ import sqlite3
 import formHelper as ff
 
 
-def form_order_base(passoffile):
+def form_order_base(passoffile, passofbase):
     df = pd.read_excel(passoffile, engine='openpyxl') #'Orders.xlsx'
     df = df.rename({'№':'id_deal', 'Номер заказа':'Order_id', 'Клиент':'Custom', 'Телефон клиента':'tel', 'Сумма':'order_cost', 'Форма оплаты':'payment_type',
                         'Итого поступило':'Итого поступило', 'Дата оплаты 1':'date_of_bye'}, axis='columns')
@@ -11,11 +11,12 @@ def form_order_base(passoffile):
     # df['real_deal'] = df['real_deal'].fillna(value=0)
     df = df.fillna('')
 
-    passdb = passoffile[:passoffile.rfind('/')] +'/OrderDB.sqlite' #S.rfind(str, [start],[end])
+    passdb = passofbase[:passofbase.rfind('/')] +'/mybase/customDB.sqlite' #S.rfind(str, [start],[end])
     conn = sqlite3.connect(passdb)
     cursor = conn.cursor()
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS OrderDB(
+       id INT PRIMARY KEY,
        id_deal TEXT,
        Order_id TEXT,
        Custom TEXT,
@@ -39,7 +40,7 @@ def form_order_base(passoffile):
         ff.form_order_num(data, 1)
         # ff.form_name(data)
         # ff.form_gender(data)
-        cursor.execute("INSERT OR REPLACE INTO OrderDB VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", (data[0], data[1], data[2],
+        cursor.execute("INSERT OR REPLACE INTO OrderDB VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", (row, data[0], data[1], data[2],
                                                                                           data[3], data[4], data[7],
                                                                                           data[8], data[11], data[13]))
 

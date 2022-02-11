@@ -11,7 +11,7 @@ def form_custom_base(passoffile):
     # df['real_deal'] = df['real_deal'].fillna(value=0)
     df = df.fillna('')
 
-    passdb = passoffile[:passoffile.rfind('/')] +'/customDB.sqlite' #S.rfind(str, [start],[end])
+    passdb = passoffile[:passoffile.rfind('/')] +'/mybase/customDB.sqlite' #S.rfind(str, [start],[end])
     conn = sqlite3.connect(passdb)
     cursor = conn.cursor()
 
@@ -49,7 +49,7 @@ def form_custom_base(passoffile):
 
 
 def service(passoffile):
-    passdb = passoffile[:passoffile.rfind('/')] +'/customDB.sqlite'
+    passdb = passoffile[:passoffile.rfind('/')] +'/mybase/customDB.sqlite'
     conn = sqlite3.connect(passdb)
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(userid) from customDB")
@@ -65,7 +65,7 @@ def service(passoffile):
 
 
 def savexcl(savepass, passoffile):
-    passdb = passoffile[:passoffile.rfind('/')] +'/customDB.sqlite'
+    passdb = passoffile[:passoffile.rfind('/')] +'/mybase/customDB.sqlite'
     conn = sqlite3.connect(passdb)
     df = pd.read_sql_query("SELECT * from customDB", conn)
     writer = pd.ExcelWriter(f"{savepass}/Result.xlsx") #f"{savepass}/Result.xlsx"

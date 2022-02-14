@@ -33,10 +33,6 @@ def form_transaction_base(passoffile, passofbase):
             data.append(value)
         data[0] = float(data[0])
         data[5] = int(data[5])
-        # ff.form_type(data)
-        # ff.form_tel(data)
-        # ff.form_name(data)
-        # ff.form_gender(data)
         cursor.execute("INSERT OR REPLACE INTO TransactionsBD VALUES (?, ?, ?, ?, ?, ?, ?, ?);", (row, data[0], data[1], data[2], data[3], data[4], data[5], data[6]))
 
     conn.commit()

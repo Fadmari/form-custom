@@ -34,12 +34,8 @@ def form_order_base(passoffile, passofbase):
         for col in df.columns:
             value = df.at[row, col]
             data.append(value)
-        # data[0] = int(data[0])
-        # ff.form_type(data)
         ff.form_tel(data, 3)
         ff.form_order_num(data, 1)
-        # ff.form_name(data)
-        # ff.form_gender(data)
         cursor.execute("INSERT OR REPLACE INTO OrderDB VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", (row, data[0], data[1], data[2],
                                                                                           data[3], data[4], data[7],
                                                                                           data[8], data[11], data[13]))

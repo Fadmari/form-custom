@@ -7,22 +7,31 @@ import Find_Info as fi
 sg.theme('Dark Blue 3')
 
 layout = [  [sg.Text('Загрузка отчётов')],
-            [sg.Text('Клиенты   '), sg.InputText(), sg.FileBrowse(),],
-            [sg.Text('Заказы     '), sg.InputText(), sg.FileBrowse(),],
-            [sg.Text('Танзакции'), sg.InputText(), sg.FileBrowse(),],
+            [sg.Text('Клиенты    '), sg.InputText(), sg.FileBrowse(),],
+            [sg.Text('Заказы      '), sg.InputText(), sg.FileBrowse(),],
+            [sg.Text('Транзакции'), sg.InputText(), sg.FileBrowse(),],
             [sg.Button('Подготовить базы'),],
             [sg.Output(size=(88, 9))],
-            [sg.Button('Поиск транзакции'),],
+            [sg.Button('Поиск транзакции'), sg.Button('Поиск клиента')],
             [sg.Button('Сохранить базу киентов'), sg.Button('Cancel')] ]
 
 window = sg.Window('Form BD', layout)
 
 def my_little_window():
-    layout_c = [[sg.Text('№ транзакции')], [sg.InputText()],
+    layout_t = [[sg.Text('№ транзакции')], [sg.InputText()],
                 [sg.Button('Find')],
                 [sg.Output(size=(88, 5))]]
+                # [sg.Table(values=[['','','','']], headings=['-','-','-','-'],
+                #     auto_size_columns=False,
+                #     display_row_numbers=True,
+                #     justification='right',
+                #     num_rows=20,
+                #     row_height=35,
+                #     size=(88, 20),
+                #     key='table',
+                #     tooltip='Данные по транзакции')]]
 
-    window = sg.Window('Поиск транзакции', layout_c)
+    window = sg.Window('Поиск транзакции', layout_t)
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == 'Exit' or event == 'Cancel':
@@ -31,7 +40,59 @@ def my_little_window():
             number = values[0]
             bdpass = sg.popup_get_folder('Откройте папку с базой данных')
             result = fi.find_transaction(bdpass, number)
-            print(result)
+            a = []
+            for res in result:
+                res = list(res)
+                a.append(res)
+            # window.Element('table').Update(values=a)
+            # print(result)
+            print(a)
+
+
+def find_custom():
+    layout_t = [[sg.Text('Телефон')], [sg.InputText()],
+                [sg.Text('Имя')], [sg.InputText()],
+                [sg.Button('Find')],
+                [sg.Output(size=(100, 5))],
+                [sg.Table(values=[[1, 2, 3, 4, 5, 6, 7, 8], [0, 0, 0, 0, 0]], headings=['client', 'gender', 'tel', 'mail', 'client_type'],
+                def_col_width = 20,
+                auto_size_columns=False,
+                display_row_numbers=True,
+                justification='right',
+                num_rows=10,
+                row_height=55,
+                size=(88, 88),
+                key='table')]]
+
+    window = sg.Window('Поиск клиента', layout_t)
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'Exit' or event == 'Cancel':
+            break
+        if event == 'Find':
+            if values[0] != '':
+                number = values[0]
+                bdpass = sg.popup_get_folder('Откройте папку с базой данных')
+                result = fi.find_custom_tel(bdpass, number)
+                a = []
+                for res in result:
+                    res = list(res)
+                    a.append(res)
+                window.Element('table').Update(values=a)
+
+                print(a)
+            elif values[1] != '':
+                name = values[1]
+                bdpass = sg.popup_get_folder('Откройте папку с базой данных')
+                result = fi.find_custom_name(bdpass, name)
+                a = []
+                for res in result:
+                    res = list(res)
+                    a.append(res)
+                window.Element('table').Update(values=a)
+
+                print(a)
+
 
 
 while True:
@@ -53,6 +114,9 @@ while True:
 
     if event == 'Поиск транзакции':
         my_little_window()
+
+    if event == 'Поиск клиента':
+        find_custom()
 
     if event == 'Сохранить базу киентов':
         passoffileC = '' + values[0]

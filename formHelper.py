@@ -41,7 +41,7 @@ def form_tel (onerow, i):
 def form_name(onerow):
     if onerow[8] != 'Юридическое лицо':
         nameList = str(onerow[0])
-        strname = ['ова', 'ева', 'кий', 'кая', 'ная', 'ный', 'ман', 'ов', 'ев', '', 'Савва', 'Илья', 'Добрыня']
+        strname = ['ова', 'ева', 'кий', 'кая', 'ная', 'ный', 'ман', 'ов', 'ев', 'их', 'ко', 'Савва', 'Илья', 'Добрыня']
         try:
             names = nameList.split(' ')
             if len(names) == 3:
@@ -74,7 +74,6 @@ def form_name(onerow):
 
 
 def form_gender(onerow):
-    gender = ''
     if onerow[8] == 'Юридическое лицо':
         gender = '-'
     else:
@@ -93,7 +92,7 @@ def form_gender(onerow):
 def form_type(onerow):
     custname = onerow[0]
     custtype = onerow[8]
-    str = ['ООО', 'бществ', 'БЩЕСТВ', 'АО', 'ИП', 'предприним', 'ПРЕДПРИНИМ', '"', '«', 'КЦ', 'ентр', 'энер', 'сталь']
+    str = ['ООО', 'бществ', 'БЩЕСТВ', 'АО', 'ИП', 'предприним', 'ПРЕДПРИНИМ', '"', '«', 'КЦ', 'ентр', 'энер', 'сталь', 'ГК']
     for st in str:
         if custtype == 'Контактное лицо':
             break

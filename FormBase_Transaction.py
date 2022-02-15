@@ -14,7 +14,7 @@ def form_transaction_base(passoffile, passofbase):
     conn = sqlite3.connect(passdb)
     cursor = conn.cursor()
 
-    cursor.execute("""CREATE TABLE IF NOT EXISTS TransactionsBD(
+    cursor.execute("""CREATE TABLE IF NOT EXISTS TransactionsDB(
        id INT PRIMARY KEY,
        id_trans INT,
        type_of_product TEXT,
@@ -33,7 +33,7 @@ def form_transaction_base(passoffile, passofbase):
             data.append(value)
         data[0] = float(data[0])
         data[5] = int(data[5])
-        cursor.execute("INSERT OR REPLACE INTO TransactionsBD VALUES (?, ?, ?, ?, ?, ?, ?, ?);", (row, data[0], data[1], data[2], data[3], data[4], data[5], data[6]))
+        cursor.execute("INSERT OR REPLACE INTO TransactionsDB VALUES (?, ?, ?, ?, ?, ?, ?, ?);", (row, data[0], data[1], data[2], data[3], data[4], data[5], data[6]))
 
     conn.commit()
     conn.close()

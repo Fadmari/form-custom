@@ -68,8 +68,19 @@ def savexcl(savepass, passoffile):
     passdb = passoffile[:passoffile.rfind('/')] +'/mybase/customDB.sqlite'
     conn = sqlite3.connect(passdb)
     df = pd.read_sql_query("SELECT * from customDB", conn)
-    writer = pd.ExcelWriter(f"{savepass}/Result.xlsx") #f"{savepass}/Result.xlsx"
+
+    writer = pd.ExcelWriter(f"{savepass}/Custom.xlsx") #f"{savepass}/Result.xlsx"
     df.to_excel(writer, 'Клиенты')
+    writer.save()
+
+    df2 = pd.read_sql_query("SELECT * from OrderDB", conn)
+    writer = pd.ExcelWriter(f"{savepass}/Orders.xlsx")  # f"{savepass}/Result.xlsx"
+    df2.to_excel(writer, 'Заказы')
+    writer.save()
+
+    df3 = pd.read_sql_query("SELECT * from TransactionsDB", conn)
+    writer = pd.ExcelWriter(f"{savepass}/Transactions.xlsx")  # f"{savepass}/Result.xlsx"
+    df3.to_excel(writer, 'Транзакции')
     writer.save()
 
     conn.close()

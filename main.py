@@ -6,30 +6,30 @@ import Find_Info as fi
 
 sg.theme('Dark Blue 3')
 
-layout = [  [sg.Text('Загрузка отчётов')],
+layout = [[sg.Text('Загрузка отчётов')],
             [sg.Text('Клиенты    '), sg.InputText(), sg.FileBrowse(),],
             [sg.Text('Заказы      '), sg.InputText(), sg.FileBrowse(),],
             [sg.Text('Транзакции'), sg.InputText(), sg.FileBrowse(),],
             [sg.Button('Подготовить базы'),],
             [sg.Output(size=(88, 9))],
             [sg.Button('Поиск транзакции'), sg.Button('Поиск клиента')],
-            [sg.Button('Сохранить базу киентов'), sg.Button('Cancel')] ]
+            [sg.Button('Сохранить базу киентов'), sg.Button('Cancel')]]
 
 window = sg.Window('Form BD', layout)
 
 def my_little_window():
     layout_t = [[sg.Text('№ транзакции')], [sg.InputText()],
                 [sg.Button('Find')],
-                [sg.Output(size=(88, 5))]]
-                # [sg.Table(values=[['','','','']], headings=['-','-','-','-'],
-                #     auto_size_columns=False,
-                #     display_row_numbers=True,
-                #     justification='right',
-                #     num_rows=20,
-                #     row_height=35,
-                #     size=(88, 20),
-                #     key='table',
-                #     tooltip='Данные по транзакции')]]
+                [sg.Output(size=(88, 5))],
+                [sg.Table(values=[['','','','','','']], headings=['1', '2', '3', '4', '5', '6'],
+                    auto_size_columns=False,
+                    display_row_numbers=True,
+                    justification='right',
+                    num_rows=20,
+                    # row_height=35,
+                    size=(100, 5),
+                    key='table',
+                    tooltip='Данные по транзакции')]]
 
     window = sg.Window('Поиск транзакции', layout_t)
     while True:
@@ -44,8 +44,8 @@ def my_little_window():
             for res in result:
                 res = list(res)
                 a.append(res)
-            # window.Element('table').Update(values=a)
-            # print(result)
+            window.Element('table').Update(values=a)
+            print(result)
             print(a)
 
 

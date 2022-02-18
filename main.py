@@ -4,6 +4,7 @@ import FormBase_Orders as fo
 import FormBase_Transaction as ft
 import Find_Info as fi
 
+
 sg.theme('Dark Blue 3')
 
 layout = [[sg.Text('Загрузка отчётов')],
@@ -13,7 +14,7 @@ layout = [[sg.Text('Загрузка отчётов')],
             [sg.Button('Подготовить базы'),],
             [sg.Output(size=(88, 9))],
             [sg.Button('Поиск транзакции'), sg.Button('Поиск клиента')],
-            [sg.Button('Сохранить базу киентов'), sg.Button('Cancel')]]
+            [sg.Button('Сохранить базу в Excel'), sg.Button('Cancel')]]
 
 window = sg.Window('Form BD', layout)
 
@@ -118,11 +119,11 @@ while True:
     if event == 'Поиск клиента':
         find_custom()
 
-    if event == 'Сохранить базу киентов':
+    if event == 'Сохранить базу в Excel':
         passoffileC = '' + values[0]
-        savepass = sg.popup_get_folder('Куда сохранить базу клиентов?')
+        savepass = sg.popup_get_folder('Куда сохранить?')
         fc.savexcl(savepass, passoffileC)
-        print('База сохранена.')
+        print('Базы сохранены.')
 
     # print(event, values) #debug
 

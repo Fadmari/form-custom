@@ -10,7 +10,7 @@ def form_transaction_base(passoffile, passofbase):
 
     df = df.fillna('')
 
-    passdb = passofbase[:passofbase.rfind('/')] +'/mybase/customDB.sqlite' #S.rfind(str, [start],[end])
+    passdb = passofbase[:passofbase.rfind('/')] +'/mybase/customDB.sqlite'
     conn = sqlite3.connect(passdb)
     cursor = conn.cursor()
 

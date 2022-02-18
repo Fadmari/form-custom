@@ -41,7 +41,7 @@ def form_tel (onerow, i):
 def form_name(onerow):
     if onerow[8] != 'Юридическое лицо':
         nameList = str(onerow[0])
-        strname = ['ова', 'ева', 'кий', 'кая', 'ная', 'ный', 'ман', 'ов', 'ев', 'их', 'ко', 'Савва', 'Илья', 'Добрыня']
+        strname = ['ова', 'ева', 'кий', 'кая', 'ная', 'ный', 'ман', 'ов', 'ев', 'их', 'ко', 'лин', 'ина', 'ин', 'Савва', 'Илья', 'Добрыня']
         try:
             names = nameList.split(' ')
             if len(names) == 3:
@@ -92,7 +92,7 @@ def form_gender(onerow):
 def form_type(onerow):
     custname = onerow[0]
     custtype = onerow[8]
-    str = ['ООО', 'бществ', 'БЩЕСТВ', 'АО', 'ИП', 'предприним', 'ПРЕДПРИНИМ', '"', '«', 'КЦ', 'ентр', 'энер', 'сталь', 'ГК']
+    str = ['ООО', 'бществ', 'БЩЕСТВ', 'АО', 'ИП', 'предприним', 'ПРЕДПРИНИМ', '"', '«', 'КЦ', 'ентр', 'энер', 'сталь', 'ГК', 'омпани', 'оссии', 'СОШ', 'плюс']
     for st in str:
         if custtype == 'Контактное лицо':
             break
@@ -107,7 +107,15 @@ def form_type(onerow):
 def form_order_num(onerow, i):
     numlist = str(onerow[i])
     newNum = ''
-    for s in numlist:
-        if '0' <= s <= '9':
-            newNum += s
+    try:
+        nums = numlist.split('/')
+        for num in nums:
+            for s in num:
+                if '0' <= s <= '9':
+                    newNum += s
+            newNum += ' '
+    except:
+        for s in numlist:
+            if '0' <= s <= '9':
+                newNum += s
     onerow.append(newNum)

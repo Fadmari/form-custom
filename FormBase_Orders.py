@@ -1,12 +1,14 @@
 import pandas as pd
 import sqlite3
 import formHelper as ff
+import MakeContact as mc
 
 
 def form_order_base(passoffile, passofbase):
     df = pd.read_excel(passoffile, engine='openpyxl') #'Orders.xlsx'
-    df = df.rename({'№':'id_deal', 'Номер заказа':'Order_id', 'Клиент':'Custom', 'Телефон клиента':'tel', 'Сумма':'order_cost', 'Форма оплаты':'payment_type',
-                        'Итого поступило':'Итого поступило', 'Дата оплаты 1':'date_of_bye'}, axis='columns')
+    df = df.rename({'№':'id_deal', 'Номер заказа':'Order_id', 'Клиент':'Custom', 'Телефон клиента':'tel',
+                    'Сумма':'order_cost', 'Форма оплаты':'payment_type', 'Итого поступило':'Итого поступило',
+                    'Дата оплаты 1':'date_of_bye'}, axis='columns')
     # df['date_of_bye'] = df['date_of_bye'].dt.date
     # df['real_deal'] = df['real_deal'].fillna(value=0)
     df = df.fillna('')
@@ -25,9 +27,11 @@ def form_order_base(passoffile, passofbase):
        payment_type TEXT,
        итого_поступило TEXT,
        date_of_bye TEXT,
-       num_of_transaction);
+       num_of_transaction,
+       custom_id TEXT); 
     """)
     conn.commit()
+    #,        custom_id TEXT
 
     for row in range(2, df.shape[0]):
         data = []
@@ -36,17 +40,19 @@ def form_order_base(passoffile, passofbase):
             data.append(value)
         ff.form_tel(data, 3)
         ff.form_order_num(data, 1)
-        cursor.execute("INSERT OR REPLACE INTO OrderDB VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", (row, data[0], data[1], data[2],
-                                                                                          data[3], data[4], data[7],
-                                                                                          data[8], data[11], data[13]))
+        mc.get_customid(passoffile, data)
+        cursor.execute("INSERT OR REPLACE INTO OrderDB VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                       (row, data[0], data[1], data[2], data[3], data[4], data[7], data[8], data[11],
+                        data[13], data[14]))
 
     conn.commit()
     conn.close()
 
 
-# passoffile = '/home/kira/PycharmProjects/pythonProject/data/Orders.xlsx'
-# # savepass = '/home/kira/PycharmProjects/pythonProject/data'
-# form_order_base(passoffile)
-# # mycount = service(passoffile)
-# # savexcl(savepass, passoffile)
-# # print(mycount[0], mycount[1])
+passoffile = '/home/kira/PycharmProjects/pythonProject/data/Orders.xlsx'
+# savepass = '/home/kira/PycharmProjects/pythonProject/data'
+passofbase = '/home/kira/PycharmProjects/pythonProject/data/mybase'
+form_order_base(passoffile, passofbase)
+# mycount = service(passoffile)
+# savexcl(savepass, passoffile)
+# print(mycount[0], mycount[1])
